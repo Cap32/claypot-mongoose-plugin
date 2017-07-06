@@ -18,7 +18,7 @@
   },
   "author": "Cap32",
   "license": "MIT",
-  "repository": "cantonjs/claypot-mongoose-plugin.git",
+  "repository": "Cap32/claypot-mongoose-plugin.git",
   "engines": {
     "node": ">= 7.6.0"
   },
