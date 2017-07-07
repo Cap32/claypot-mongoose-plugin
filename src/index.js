@@ -6,6 +6,7 @@ import { join } from 'path';
 import importModules from 'import-modules';
 
 const { connection } = mongoose;
+mongoose.Promise = Promise;
 
 export default class MongooseClaypotPlugin {
 	constructor(options = {}, { root }) {
