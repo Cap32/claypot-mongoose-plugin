@@ -44,7 +44,7 @@ export default class MongooseClaypotPlugin {
 				const schema = schemas[name];
 				if (schema) {
 					const modelName = (name + '').toLowerCase();
-					const model = mongoose.model(modelName, schema || schema.default);
+					const model = mongoose.model(modelName, schema.default || schema);
 					models[name] = model;
 				}
 				return models;
