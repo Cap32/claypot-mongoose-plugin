@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 // import mongooseStore from 'cache-manager-mongoose';
 import { logger } from 'claypot';
-import join from 'path';
+import { join } from 'path';
 import importModules from 'import-modules';
 
 const { connection } = mongoose;
