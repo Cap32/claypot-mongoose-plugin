@@ -19,18 +19,31 @@ export default class MongooseClaypotPlugin {
 
 		register(this._name, {
 
-			connect(options) {
+			async connect(options) {
 				const {
 					host = '127.0.0.1',
 					port = 27017,
 					database,
+					user,
+					pass,
 					...other,
 				} = options;
 
-				mongoose.connect(`mongodb://${host}:${port}/${database}`, other);
+				const userAndPass = user && pass ? `${user}:${pass}` : '';
+
+				mongoose.connect(
+					`mongodb://${userAndPass}@${host}:${port}/${database}`,
+					{
+						useMongoClient: true,
+						promiseLibrary: global.Promise,
+						...other,
+					},
+				);
+
 				connection.on('error', ({ message }) => {
 					logger.fatal('[MONGODB CONNECTION ERROR]:', message);
 				});
+
 				connection.once('open', () => logger.info('mongodb connected.'));
 			},
 
