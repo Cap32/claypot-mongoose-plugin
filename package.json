@@ -27,7 +27,8 @@
     "import-modules": "^1.1.0"
   },
   "peerDependencies": {
-    "claypot": "^0.0.0-beta.31"
+    "claypot": "^0.0.0-beta.31",
+    "mongoose": "^4.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
