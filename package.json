@@ -1,7 +1,7 @@
 {
   "name": "claypot-mongoose-plugin",
   "description": "Claypot mongoose plugin",
-  "version": "0.0.0-5",
+  "version": "0.0.0-6",
   "main": "lib/index",
   "files": [
     "LICENSE.md",
