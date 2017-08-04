@@ -1,18 +1,31 @@
 
 import mongoose from 'mongoose';
 import mongooseStore from 'cache-manager-mongoose';
-import { logger } from 'claypot';
+import { createLogger } from 'claypot';
 import { join } from 'path';
 import importModules from 'import-modules';
 
 const { connection } = mongoose;
 mongoose.Promise = Promise;
+const logger = createLogger('mongoose', 'green');
 
 export default class MongooseClaypotPlugin {
-	constructor(options = {}, { root }) {
+	constructor(options = {}, { root, baseDir }) {
 		this._name = options.name || 'mongoose';
-		const schemaDir = join(root, options.schemas || 'schemas');
+		const schemaDir = join(baseDir || root, options.schemas || 'schemas');
 		this._schemas = importModules(schemaDir);
+
+		// model name to schema name
+		// i.e. `{ myModelName: 'mySchemaName' }`
+		this._namesMap = options.namesMap || {};
+
+		if (!Object.keys(this._schemas).length) {
+			logger.warn(
+				'no schemas found. ' +
+				`please make sure the "schema" value "${schemaDir}" is correct, ` +
+				'and make sure schema files exist.',
+			);
+		}
 	}
 
 	registerDatabase(register) {
@@ -41,10 +54,10 @@ export default class MongooseClaypotPlugin {
 				);
 
 				connection.on('error', ({ message }) => {
-					logger.fatal('[MONGODB CONNECTION ERROR]:', message);
+					logger.fatal('CONNECTION ERROR:', message);
 				});
 
-				connection.once('open', () => logger.info('mongodb connected.'));
+				connection.once('open', () => logger.info('connected'));
 			},
 
 			createCache(options) {
@@ -56,15 +69,23 @@ export default class MongooseClaypotPlugin {
 			},
 
 			createModels: (names) => {
-				return names.reduce((models, name) => {
-					const schema = this._schemas[name];
+				const namesMap = this._namesMap;
+				const models = names.reduce((models, name) => {
+					const schemaName = namesMap[name] || name;
+					const schema = this._schemas[schemaName];
 					if (schema) {
 						const modelName = (name + '').toLowerCase();
 						const model = mongoose.model(modelName, schema.default || schema);
 						models[name] = model;
+						logger.trace(`"${modelName}" created`);
+					}
+					else {
+						logger.debug(`schema of model "${name}" NOT found`);
 					}
 					return models;
 				}, {});
+
+				return models;
 			},
 
 		});
