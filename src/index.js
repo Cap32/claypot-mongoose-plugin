@@ -79,9 +79,6 @@ export default class MongooseClaypotPlugin {
 						models[name] = model;
 						logger.trace(`"${modelName}" created`);
 					}
-					else {
-						logger.debug(`schema of model "${name}" NOT found`);
-					}
 					return models;
 				}, {});
 
