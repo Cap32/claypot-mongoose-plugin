@@ -23,18 +23,18 @@
     "node": ">= 7.6.0"
   },
   "dependencies": {
-    "cache-manager-mongoose": "^0.0.4",
-    "import-modules": "^1.1.0"
+    "skeeler": "^0.1.0",
+    "skeeler-mongoose": "^0.0.0"
   },
   "peerDependencies": {
-    "claypot": "^0.0.0-beta.43",
-    "mongoose": "^4.11.0"
+    "claypot": "^0.1.1",
+    "mongoose": "^5.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-eslint": "^7.2.3",
-    "babel-jest": "^19.0.0",
+    "babel-jest": "^22.1.0",
     "babel-plugin-transform-es2015-destructuring": "^6.19.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-es2015-parameters": "^6.18.0",
@@ -42,21 +42,17 @@
     "babel-preset-stage-0-without-async": "^1.0.0",
     "babel-register": "^6.11.6",
     "babel-register-cli": "^4.0.0",
-    "claypot": "^0.0.0-beta.43",
+    "claypot": "^0.1.1",
     "co-body": "^4.2.0",
     "cross-env": "^4.0.0",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jest": "^19.0.1",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
+    "eslint": "^4.16.0",
+    "eslint-config-cantonjs": "^0.2.0",
     "get-my-ip": "0.0.1",
-    "jest": "^19.0.2",
+    "jest": "^22.1.4",
     "kapok-js": "^0.2.1",
     "mkdirp": "^0.5.1",
-    "mongoose": "^4.11.1",
+    "mongoose": "^5.0.2",
+    "prettier-eslint-cli": "^4.7.0",
     "qs": "^6.3.0",
     "rimraf": "^2.5.4"
   },

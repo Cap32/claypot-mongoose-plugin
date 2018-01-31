@@ -1,91 +1,111 @@
-
 import mongoose from 'mongoose';
-import mongooseStore from 'cache-manager-mongoose';
-import { createLogger } from 'claypot';
-import { join } from 'path';
-import importModules from 'import-modules';
+import { Schema, ensureLogger } from 'claypot';
+import SkeelerMongoose from 'skeeler-mongoose';
 
 const { connection } = mongoose;
 mongoose.Promise = Promise;
-const logger = createLogger('mongoose', 'green');
 
 export default class MongooseClaypotPlugin {
-	constructor(options = {}, { root, baseDir }) {
-		this._name = options.name || 'mongoose';
-		const schemaDir = join(baseDir || root, options.schemas || 'schemas');
-		this._schemas = importModules(schemaDir);
-
-		// model name to schema name
-		// i.e. `{ myModelName: 'mySchemaName' }`
-		this._namesMap = options.namesMap || {};
-
-		if (!Object.keys(this._schemas).length) {
-			logger.warn(
-				'no schemas found. ' +
-				`please make sure the "schema" value "${schemaDir}" is correct, ` +
-				'and make sure schema files exist.',
-			);
-		}
+	constructor(options = {}) {
+		this._logger = ensureLogger('mongoose', 'green');
+		this._store = options.store || 'mongoose';
+		this._noModel = options.enableModels === false;
+		this._includeModels = options.includeModels || [];
+		this._excludeModels = options.excludeModels || [];
+		this._modelNamesMap = {};
+		this._injectConnections =
+			options.injectConnections || 'mongooseConnections';
 	}
 
-	registerDatabase(register) {
-
-		register(this._name, {
-
-			async connect(options) {
+	willConnectDatabases(dbsMap, app) {
+		const connections = {};
+		for (const [key, db] of dbsMap) {
+			if (db.store === this._store) {
 				const {
 					host = '127.0.0.1',
 					port = 27017,
 					database,
 					user,
 					pass,
-					...other,
-				} = options;
+					...other
+				} = db.config;
 
 				const userAndPass = user && pass ? `${user}:${pass}` : '';
 
 				mongoose.connect(
 					`mongodb://${userAndPass}@${host}:${port}/${database}`,
 					{
-						useMongoClient: true,
+
+						// useMongoClient: true,
 						promiseLibrary: global.Promise,
 						...other,
 					},
 				);
 
 				connection.on('error', ({ message }) => {
-					logger.fatal('CONNECTION ERROR:', message);
+					this._logger.fatal('CONNECTION ERROR:', message);
 				});
 
-				connection.once('open', () => logger.info('connected'));
-			},
-
-			createCache(options) {
-				return {
-					...options,
-					store: mongooseStore,
-					mongoose,
-				};
-			},
-
-			createModels: (names) => {
-				const namesMap = this._namesMap;
-				const models = names.reduce((models, name) => {
-					const schemaName = namesMap[name] || name;
-					const schema = this._schemas[schemaName];
-					if (schema) {
-						const modelName = (name + '').toLowerCase();
-						const model = mongoose.model(modelName, schema.default || schema);
-						models[name] = model;
-						logger.trace(`"${modelName}" created`);
-					}
-					return models;
-				}, {});
-
-				return models;
-			},
-
-		});
+				connection.once('open', () => this._logger.info('connected'));
+				connections[key] = connection;
+			}
+		}
+		this._connections = app[this._injectConnections] = connections;
 	}
 
+	willResolveSchemas() {
+		Schema.use('mongoose', new SkeelerMongoose());
+	}
+
+	didResolvedSchemas(schemas) {
+		this._schemas = schemas;
+
+		if (!Object.keys(schemas).length) {
+			this._logger.warn('no schemas found.');
+		}
+	}
+
+	willCreateModels(modelsMap) {
+		if (this._noModel) {
+			return;
+		}
+
+		const includes = this._includeModels;
+		const excludes = this._excludeModels;
+		const connections = this._connections;
+		const namesMap = this._modelNamesMap;
+		const schemas = this._schemas;
+
+		for (const [name, Model] of modelsMap) {
+			const shouldInclude = includes.length && !includes.includes(name);
+			if (shouldInclude || excludes.includes(name)) {
+				continue;
+			}
+
+			for (const key in connections) {
+				if (!connections.hasOwnProperty(key)) {
+					continue;
+				}
+
+				let schema = schemas[name];
+				if (!schema) {
+					continue;
+				}
+				else if (schema.default instanceof mongoose.Schema) {
+					schema = schema.default;
+				}
+				else if (schema.mongoose instanceof mongoose.Schema) {
+					schema = schema.mongoose;
+				}
+				else {
+					continue;
+				}
+
+				const model = mongoose.model(name, schema);
+				const prop = namesMap[key] || key;
+				Model[prop] = model;
+				this._logger.trace(`"${name}" created`);
+			}
+		}
+	}
 }
