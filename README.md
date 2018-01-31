@@ -1,6 +1,6 @@
 # claypot-mongoose-plugin
 
-**THIS LIBRARY IS UNDER DEVELOPING, PLEASE DON'T USE IT IN PRODUCTION ENV**
+[![Build Status](https://travis-ci.org/Cap32/claypot-mongoose-plugin.svg?branch=master)](https://travis-ci.org/Cap32/claypot-mongoose-plugin)
 
 ## Installing
 
@@ -8,7 +8,26 @@
 $ yarn add claypot claypot-mongoose-plugin
 ```
 
-**DOCUMENT IS COMING SOON**
+## Usage
+
+**Claypotfile.js**
+
+```js
+module.exports = {
+    plugins: ['claypot-mongoose-plugin'],
+    dbs: {
+        foo: {
+            store: 'mongoose',
+            database: 'my_mongo_db',
+            native_parser: true,
+            user: '<USER>',
+            pass: '<PASS>',
+            authSource: 'admin',
+            autoReconnect: true,
+        },
+    },
+};
+```
 
 ## License
 
