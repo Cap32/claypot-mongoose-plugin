@@ -1,9 +1,13 @@
 {
 	"name": "claypot-mongoose-plugin",
 	"description": "Claypot mongoose plugin",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"main": "lib/index",
-	"files": ["LICENSE.md", "README.md", "lib"],
+	"files": [
+		"LICENSE.md",
+		"README.md",
+		"lib"
+	],
 	"scripts": {
 		"start": "claypot start",
 		"test": "cross-env CLAYPOT_DEV=true jest",
@@ -54,7 +58,12 @@
 		"rimraf": "^2.5.4"
 	},
 	"jest": {
-		"collectCoverageFrom": ["src/**/*.js"],
-		"modulePathIgnorePatterns": ["node_modules", "lib"]
+		"collectCoverageFrom": [
+			"src/**/*.js"
+		],
+		"modulePathIgnorePatterns": [
+			"node_modules",
+			"lib"
+		]
 	}
 }
