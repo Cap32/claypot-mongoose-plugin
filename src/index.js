@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { Schema, ensureLogger } from 'claypot';
 import SkeelerMongoose from 'skeeler-mongoose';
+import semverCompare from 'semver-compare';
 
 const { connection } = mongoose;
 mongoose.Promise = Promise;
@@ -32,14 +33,23 @@ export default class MongooseClaypotPlugin {
 
 				const userAndPass = user && pass ? `${user}:${pass}` : '';
 
+				const connectOpions = {
+
+					// useMongoClient: true,
+					promiseLibrary: global.Promise,
+					...other,
+				};
+
+				if (
+					semverCompare(mongoose.version, '5.2.0') >= 0 &&
+					connectOpions.useNewUrlParser !== false
+				) {
+					connectOpions.useNewUrlParser = true;
+				}
+
 				mongoose.connect(
 					`mongodb://${userAndPass}@${host}:${port}/${database}`,
-					{
-
-						// useMongoClient: true,
-						promiseLibrary: global.Promise,
-						...other,
-					},
+					connectOpions,
 				);
 
 				connection.on('error', ({ message }) => {

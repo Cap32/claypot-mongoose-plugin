@@ -23,6 +23,7 @@
     "node": ">= 7.6.0"
   },
   "dependencies": {
+    "semver-compare": "^1.0.0",
     "skeeler": "^0.1.0",
     "skeeler-mongoose": "^0.0.0"
   },
