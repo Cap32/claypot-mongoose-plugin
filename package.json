@@ -1,69 +1,60 @@
 {
-  "name": "claypot-mongoose-plugin",
-  "description": "Claypot mongoose plugin",
-  "version": "0.0.0",
-  "main": "lib/index",
-  "files": [
-    "LICENSE.md",
-    "README.md",
-    "lib"
-  ],
-  "scripts": {
-    "start": "claypot start",
-    "test": "cross-env CLAYPOT_DEV=true jest",
-    "prebuild": "rimraf lib",
-    "build": "babel src -d lib",
-    "build:watch": "yarn build -- -w",
-    "preversion": "yarn build"
-  },
-  "author": "Cap32",
-  "license": "MIT",
-  "repository": "Cap32/claypot-mongoose-plugin.git",
-  "engines": {
-    "node": ">= 7.6.0"
-  },
-  "dependencies": {
-    "semver-compare": "^1.0.0",
-    "skeeler": "^0.1.0",
-    "skeeler-mongoose": "^0.0.0"
-  },
-  "peerDependencies": {
-    "claypot": "^0.1.1",
-    "mongoose": "^5.0.2"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-core": "^6.13.2",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^22.1.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.19.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
-    "babel-plugin-transform-es2015-parameters": "^6.18.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-preset-stage-0-without-async": "^1.0.0",
-    "babel-register": "^6.11.6",
-    "babel-register-cli": "^4.0.0",
-    "claypot": "^0.1.1",
-    "co-body": "^4.2.0",
-    "cross-env": "^4.0.0",
-    "eslint": "^4.16.0",
-    "eslint-config-cantonjs": "^0.2.0",
-    "get-my-ip": "0.0.1",
-    "jest": "^22.1.4",
-    "kapok-js": "^0.2.1",
-    "mkdirp": "^0.5.1",
-    "mongoose": "^5.0.2",
-    "prettier-eslint-cli": "^4.7.0",
-    "qs": "^6.3.0",
-    "rimraf": "^2.5.4"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
-    "modulePathIgnorePatterns": [
-      "node_modules",
-      "lib"
-    ]
-  }
+	"name": "claypot-mongoose-plugin",
+	"description": "Claypot mongoose plugin",
+	"version": "0.0.0",
+	"main": "lib/index",
+	"files": ["LICENSE.md", "README.md", "lib"],
+	"scripts": {
+		"start": "claypot start",
+		"test": "cross-env CLAYPOT_DEV=true jest",
+		"prebuild": "rimraf lib",
+		"build": "babel src -d lib",
+		"build:watch": "yarn build -- -w",
+		"preversion": "yarn build"
+	},
+	"author": "Cap32",
+	"license": "MIT",
+	"repository": "Cap32/claypot-mongoose-plugin.git",
+	"engines": {
+		"node": ">= 7.6.0"
+	},
+	"dependencies": {
+		"semver-compare": "^1.0.0",
+		"skeeler": "^0.1.0",
+		"skeeler-mongoose": "^0.0.0"
+	},
+	"peerDependencies": {
+		"claypot": "^0.1.1",
+		"mongoose": "^5.0.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.11.4",
+		"babel-core": "^6.13.2",
+		"babel-eslint": "^7.2.3",
+		"babel-jest": "^22.1.0",
+		"babel-plugin-transform-es2015-destructuring": "^6.19.0",
+		"babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+		"babel-plugin-transform-es2015-parameters": "^6.18.0",
+		"babel-preset-stage-0": "^6.5.0",
+		"babel-preset-stage-0-without-async": "^1.0.0",
+		"babel-register": "^6.11.6",
+		"babel-register-cli": "^4.0.0",
+		"claypot": "^0.1.1",
+		"co-body": "^4.2.0",
+		"cross-env": "^4.0.0",
+		"eslint": "^4.16.0",
+		"eslint-config-cantonjs": "^0.2.0",
+		"get-my-ip": "0.0.1",
+		"jest": "^22.1.4",
+		"kapok-js": "^0.2.1",
+		"mkdirp": "^0.5.1",
+		"mongoose": "^5.0.2",
+		"prettier-eslint-cli": "^4.7.0",
+		"qs": "^6.3.0",
+		"rimraf": "^2.5.4"
+	},
+	"jest": {
+		"collectCoverageFrom": ["src/**/*.js"],
+		"modulePathIgnorePatterns": ["node_modules", "lib"]
+	}
 }
