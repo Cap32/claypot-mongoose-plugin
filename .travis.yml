@@ -1,12 +1,18 @@
-language: node_js
-
-node_js:
-  - "7"
-  - "8"
-  - "9"
+sudo: required
 
 services:
   - mongo
+  - docker
+
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+
+language: node_js
+
+node_js:
+  - 8
 
 notifications:
   email: false
