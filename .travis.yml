@@ -11,5 +11,8 @@ cache:
 services:
   - mongo
 
+before_script:
+  - sleep 15
+
 notifications:
   email: false
